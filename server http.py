@@ -1,12 +1,7 @@
 import http.server
 import socketserver
 import os
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from socketserver import ThreadingMixIn
-import datetime
 import json
-import time
-import random
 import threading
 import requests
 
@@ -122,9 +117,9 @@ def get_movie(name):
 
 
 def main():
-    data = get_movie(Test_movie)
+    movie_data = get_movie(Test_movie)
 
-    print(data)
+    print(movie_data)
 
 
 if __name__ == "__main__":
