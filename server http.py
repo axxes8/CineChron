@@ -74,7 +74,7 @@ class TV_Show:
         pass
 
 
-class API_request(threading.Thread):
+class Searched_API_request(threading.Thread):
     def __init__(self,url):
         threading.Thread.__init__(self)
         self.url = url
@@ -101,6 +101,9 @@ def get_movie(name,movie_file):
 def get_tv_show(name,tv_file):
     url = Movie_search + name
     pass
+
+def get_genre_list():
+
 
 
 def main():
