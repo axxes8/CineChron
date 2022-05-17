@@ -18,7 +18,7 @@ import requests
 api_key = '9ba37aca04338a3886c632201a0a7dce'
 Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query="
 Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US"
-Test_movie = "F9"
+Test_movie = "Star Wars Episode 07 (2015) The Force Awakens"
 
 class Movie:
     
@@ -86,7 +86,10 @@ class Searched_request(threading.Thread):
         if response.status_code == 200:
             movies_returned = response.json()
             self.listed_results = movies_returned["results"]
-            self.response = self.listed_results[0]
+            if len(self.listed_results) < 1:
+                print("No results found")
+            else:
+                self.response = self.listed_results[0]
         else:
             print("Error retrieveing data on ",self.url)
 
