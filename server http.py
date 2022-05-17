@@ -24,6 +24,14 @@ class Movie:
     
     def __init__(self, json):
         super().__init__()
+        self.genres = json["genre_ids"]
+        self.movie_id = json["id"]
+        self.title = json["original_title"]
+        self.overview = json["overview"]
+        self.popularity = json["popularity"]
+        self.poster = json["poster_path"]
+        self.release_date = json["release_date"]
+
 
     def add_title(self, id):
         pass
@@ -87,8 +95,8 @@ def get_movie(name,movie_file):
     json = API_request(url)
     json.start()
     json.join()
-
-    return json
+    movie = Movie(json.response)
+    return movie
 
 def get_tv_show(name,tv_file):
     url = Movie_search + name
@@ -98,7 +106,8 @@ def get_tv_show(name,tv_file):
 def main():
     movie_data = get_movie(Test_movie,Test_movie)
 
-    print(movie_data.response)
+    print(movie_data.title)
+    print(movie_data.overview)
 
 
 if __name__ == "__main__":
