@@ -71,12 +71,14 @@ class API_request(threading.Thread):
         threading.Thread.__init__(self)
         self.url = url
         self.response = {}
+        self.listed_results = []
 
     def run(self):
         response = requests.get(self.url)
         if response.status_code == 200:
-            movie_search = response.json()
-            self.response = movie_search[1]
+            movies_returned = response.json()
+            self.listed_results = movies_returned["results"]
+            self.response = self.listed_results[0]
         else:
             print("Error retrieveing data on ",self.url)
 
@@ -86,7 +88,7 @@ def get_movie(name,movie_file):
     json.start()
     json.join()
 
-    return json.response
+    return json
 
 def get_tv_show(name,tv_file):
     url = Movie_search + name
@@ -94,9 +96,9 @@ def get_tv_show(name,tv_file):
 
 
 def main():
-    movie_data = get_movie(Test_movie)
+    movie_data = get_movie(Test_movie,Test_movie)
 
-    print(movie_data)
+    print(movie_data.response)
 
 
 if __name__ == "__main__":
