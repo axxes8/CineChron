@@ -33,7 +33,7 @@ class Movie:
         self.release_date = json["release_date"]
 
 
-    def add_title(self, id):
+    def add_title(self):
         pass
 
     def get_details(self):
@@ -74,7 +74,7 @@ class TV_Show:
         pass
 
 
-class Searched_API_request(threading.Thread):
+class Searched_request(threading.Thread):
     def __init__(self,url):
         threading.Thread.__init__(self)
         self.url = url
@@ -90,9 +90,22 @@ class Searched_API_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
+class API_request(threading.Thread):
+    def __init__(self,url):
+        threading.Thread.__init__(self)
+        self.url = url
+        self.response = {}
+
+    def run(self):
+        response = requests.get(self.url)
+        if response.status_code == 200:
+            self.response = response.json()
+        else:
+            print("Error retrieveing data on ",self.url)
+
 def get_movie(name,movie_file):
     url = Movie_search + name
-    json = API_request(url)
+    json = Searched_request(url)
     json.start()
     json.join()
     movie = Movie(json.response)
@@ -103,7 +116,7 @@ def get_tv_show(name,tv_file):
     pass
 
 def get_genre_list():
-
+    pass
 
 
 def main():
