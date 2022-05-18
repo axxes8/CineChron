@@ -18,7 +18,7 @@ import requests
 api_key = '9ba37aca04338a3886c632201a0a7dce'
 Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query="
 Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US"
-Test_movie = "Star Wars Episode 07 (2015) The Force Awakens"
+Test_movie = "Over the Hedge"
 
 class Movie:
     
@@ -147,11 +147,14 @@ def get_genre_list():
 def main():
     movie_data = get_movie(Test_movie,Test_movie)
     genre_list = get_genre_list()
+    trend_movies,trend_tv = get_trending()
 
     print(movie_data.title)
     print(movie_data.overview)
 
     print(genre_list)
+    #print(trend_movies)
+    #print(trend_tv)
 
 
 if __name__ == "__main__":
