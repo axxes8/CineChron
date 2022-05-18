@@ -108,22 +108,47 @@ def get_movie(name,movie_file):
     json = Searched_request(url)
     json.start()
     json.join()
-    movie = Movie(json.response)
+    if len(json.response) == 0:
+        movie = f"The movie file {name} couldnt be found. Make sure the filename is labled as simply the movie title"
+    else:
+        movie = Movie(json.response)
     return movie
 
 def get_tv_show(name,tv_file):
-    url = Movie_search + name
+    #url = TV_search + name
     pass
+
+def get_trending():
+    trend_m_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
+    call_m = API_request(trend_m_url)
+
+    trend_t_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
+    call_tv = API_request(trend_t_url)
+
+    call_m.start()
+    call_tv.start()
+
+    call_m.join()
+    call_tv.join() 
+
+    return call_m.response, call_tv.response
 
 def get_genre_list():
-    pass
+    genres_url = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US"
+    genre_list = API_request(genres_url)
+    genre_list.start()
+    genre_list.join()
 
+    return genre_list.response["genres"]
 
 def main():
     movie_data = get_movie(Test_movie,Test_movie)
+    genre_list = get_genre_list()
 
     print(movie_data.title)
     print(movie_data.overview)
+
+    print(genre_list)
 
 
 if __name__ == "__main__":
