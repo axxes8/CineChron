@@ -1,8 +1,4 @@
 import glob
-<<<<<<< HEAD
-for f in glob.glob('\Users\dylan\Documents.*', recursive=True):
-    print(f)
-=======
 import os
  
 movieList = []
@@ -17,4 +13,3 @@ for file in glob.iglob(path, recursive=True):
     
 print(movieList)
 print("Found", len(movieList), "files.")
->>>>>>> d922671114c93e58fd8dfaad9e3d6ba73f9776d8
