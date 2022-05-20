@@ -18,7 +18,7 @@ import requests
 api_key = '9ba37aca04338a3886c632201a0a7dce'
 Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query="
 Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US"
-Test_movie = "Over the Hedge"
+Test_movie = "Saving Private Ryan"
 
 class Movie:
     
@@ -150,9 +150,10 @@ def main():
     trend_movies,trend_tv = get_trending()
 
     print(movie_data.title)
+    print(movie_data.release_date)
     print(movie_data.overview)
 
-    print(genre_list)
+    #print(genre_list)
     #print(trend_movies)
     #print(trend_tv)
 
