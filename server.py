@@ -1,13 +1,11 @@
 import os
 import glob
-import http.server
 import json
 import os
-import socketserver
 import threading
 
 import requests
-import vlc
+# import vlc
 
 api_key = '9ba37aca04338a3886c632201a0a7dce'
 Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query="
