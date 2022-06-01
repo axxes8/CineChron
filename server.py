@@ -18,12 +18,18 @@ import vlc
 #print("serving at port", PORT)
 #httpd.serve_forever()
 
+#Movie DB API key https://api.themoviedb.org
 api_key = '9ba37aca04338a3886c632201a0a7dce'
+
+#API call that returns a result set of movies 
 Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query="
+
+#API call that returns the genre list 
 Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US"
+
 Test_movie = "Over the Hedge"
 
-
+#This class is used to extract all the json data from the Movie DB API.  
 class Movie:
     
     def __init__(self, json):
@@ -46,6 +52,8 @@ class Movie:
     def __str__(self):
         pass
 
+
+#
 class TV_episode:
     
     def __init__(self, json):
@@ -63,6 +71,7 @@ class TV_episode:
     def __str__(self):
         pass
 
+#
 class TV_Show:
     
     def __init__(self, json):
@@ -77,7 +86,7 @@ class TV_Show:
     def __str__(self):
         pass
 
-
+#
 class Searched_request(threading.Thread):
     def __init__(self,url):
         threading.Thread.__init__(self)
@@ -97,6 +106,7 @@ class Searched_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
+#
 class API_request(threading.Thread):
     def __init__(self,url):
         threading.Thread.__init__(self)
@@ -125,6 +135,7 @@ def get_tv_show(name,tv_file):
     #url = TV_search + name
     pass
 
+#Function creates two threads to the Movie DB API. One thread retrieves a list of  
 def get_trending():
     trend_m_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
     call_m = API_request(trend_m_url)
@@ -140,6 +151,7 @@ def get_trending():
 
     return call_m.response, call_tv.response
 
+#Function creates a thread that gets the list of genres with their genre ID connected.
 def get_genre_list():
     genres_url = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US"
     genre_list = API_request(genres_url)
