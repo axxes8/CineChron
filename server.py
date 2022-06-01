@@ -1,20 +1,8 @@
-import http.server
-import socketserver
 import os
 import glob
 import json
 import threading
 import requests
-
-#PORT = 8000
-#
-#web_dir = os.path.join(os.path.dirname(__file__), 'D:/Users/Taylor/Desktop')
-#os.chdir(web_dir)
-#
-#Handler = http.server.SimpleHTTPRequestHandler
-#httpd = socketserver.TCPServer(("", PORT), Handler)
-#print("serving at port", PORT)
-#httpd.serve_forever()
 
 api_key = '9ba37aca04338a3886c632201a0a7dce'
 Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query="
