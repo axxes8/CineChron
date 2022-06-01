@@ -1,22 +1,11 @@
+import os
 import glob
-import http.server
 import json
 import os
-import socketserver
 import threading
 
 import requests
-import vlc
-
-#PORT = 8000
-#
-#web_dir = os.path.join(os.path.dirname(__file__), 'D:/Users/Taylor/Desktop')
-#os.chdir(web_dir)
-#
-#Handler = http.server.SimpleHTTPRequestHandler
-#httpd = socketserver.TCPServer(("", PORT), Handler)
-#print("serving at port", PORT)
-#httpd.serve_forever()
+# import vlc
 
 #Movie DB API key https://api.themoviedb.org
 api_key = '9ba37aca04338a3886c632201a0a7dce'
