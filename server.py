@@ -1,13 +1,19 @@
 import os
 import glob
+import http.server
 import json
+import os
+import socketserver
 import threading
+
 import requests
+import vlc
 
 api_key = '9ba37aca04338a3886c632201a0a7dce'
 Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query="
 Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US"
 Test_movie = "Over the Hedge"
+
 
 class Movie:
     
