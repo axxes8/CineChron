@@ -21,22 +21,47 @@ Test_movie = "Over the Hedge"
 #This class is used to extract all the json data from the Movie DB API.  
 class Movie:
     
-    def __init__(self, json):
+    def __init__(self, TMDB_json, genre_json):
         super().__init__()
-        self.genres = json["genre_ids"]
-        self.movie_id = json["id"]
-        self.title = json["original_title"]
-        self.overview = json["overview"]
-        self.popularity = json["popularity"]
-        self.poster = json["poster_path"]
-        self.release_date = json["release_date"]
+        
+        self.movie_id = TMDB_json["id"]
+        self.title = TMDB_json["original_title"]
+        self.overview = TMDB_json["overview"]
+        self.popularity = TMDB_json["popularity"]
+        self.poster_path = TMDB_json["poster_path"]
+        self.release_date = TMDB_json["release_date"]
 
+        self.genre_ids = TMDB_json["genre_ids"]
+        self.genre_key = genre_json["genres"]
 
-    def add_title(self):
-        pass
+        self.genres = []
 
-    def get_details(self):
-        pass
+        for genre in self.genre_ids:
+            for key in self.genre_key:
+                if genre == key["id"]:
+                    self.genres.append(key["name"]) 
+
+    def get_json(self):
+        output_json = {
+              "movie_id": self.movie_id,
+              "title": self.title,
+              "overview": self.overview,
+              "popularity": self.popularity,
+              "poster_path": self.poster_path,
+              "release_date": self.release_date,
+              "genres": self.genres,
+            }
+        return json.dumps(output_json)
+
+    def get_trending():
+        trend_m_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
+        call_m = API_request(trend_m_url)
+
+        call_m.start()
+
+        call_m.join()
+
+        return call_m.response
 
     def __str__(self):
         pass
@@ -109,7 +134,7 @@ class API_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
-def get_movie(name,movie_file):
+def get_movie(name, library_dict, genre_dict):
     url = Movie_search + name
     json = Searched_request(url)
     json.start()
@@ -117,7 +142,8 @@ def get_movie(name,movie_file):
     if len(json.response) == 0:
         movie = f"The movie file {name} couldnt be found. Make sure the filename is labled as simply the movie title"
     else:
-        movie = Movie(json.response)
+        movie = Movie(json.response,genre_dict)
+        library_dict[name] = movie
     return movie
 
 def get_tv_show(name,tv_file):
@@ -147,7 +173,7 @@ def get_genre_list():
     genre_list.start()
     genre_list.join()
 
-    return genre_list.response["genres"]
+    return genre_list.response
 
 def get_filename(path):
     ## Pathname is as follows: Driveletter:/directories/**/<filename>.<Filetype>
@@ -168,14 +194,23 @@ def get_filename(path):
     return(movieList)
 
 def main():
-    movie_data = get_movie(Test_movie,Test_movie)
+    #movie_list = get_filename()
     genre_list = get_genre_list()
+    library_dict = dict()
+    movie = get_movie(Test_movie,library_dict,genre_list)
+    
     trend_movies,trend_tv = get_trending()
 
-    print(movie_data.title)
-    print(movie_data.overview)
+    print(movie.title)
+    print(movie.overview)
+    print(movie.genres)
+    test = movie.get_json()
 
-    print(genre_list)
+    #t = json.loads(test)
+    #print(json.dumps(t))
+
+
+    #print(genre_list)
     #print(trend_movies)
     #print(trend_tv)
 
