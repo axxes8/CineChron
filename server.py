@@ -180,10 +180,13 @@ def get_filename(path):
     ##      The ** denotes iterating through the directory
     ##      * can be used as a wildcard
     # path="Z:/**/*.*"
+
+    stripped_path = path.strip('"')
+    # print(stripped_path)
     movieList = []
     
     ## Recursivly searches through path finding all files and returns the path for each file.
-    for file in glob.iglob(path, recursive=True):
+    for file in glob.iglob(stripped_path, recursive=True):
         ## Strip off the path and append the file name to 'movieList'
         movieList.append(os.path.basename(file))
         # print(os.path.basename(file))
