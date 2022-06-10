@@ -4,7 +4,7 @@ from server import *
 
 app=FastAPI()
 
-app.mount('/filename', app=StaticFiles(directory='Z:/'), name="filename")
+# app.mount('/filename', app=StaticFiles(directory='Z:/'), name="filename")
 
 @app.get("/")
 async def root():

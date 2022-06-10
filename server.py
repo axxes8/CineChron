@@ -176,21 +176,24 @@ def get_genre_list():
     return genre_list.response
 
 def get_filename(path):
-    ## Pathname is as follows: Driveletter:/directories/**/<filename>.<Filetype>
+    ## Path is as follows: Driveletter:/directories/**/<filename>.<Filetype>
     ##      The ** denotes iterating through the directory
     ##      * can be used as a wildcard
     # path="Z:/**/*.*"
-
+    ## Add iterator and wildcards to path
+    path = path + "/**/*.*"
+    ## Strip quotations off of path
     stripped_path = path.strip('"')
     # print(stripped_path)
     movieList = []
     
     ## Recursivly searches through path finding all files and returns the path for each file.
     for file in glob.iglob(stripped_path, recursive=True):
-        ## Strip off the path and append the file name to 'movieList'
-        movieList.append(os.path.basename(file))
+        ## Strip off the path and file extention, then append the file name to 'movieList'
+        movieList.append(os.path.basename(file).split('.')[:-1])
         # print(os.path.basename(file))
-        
+
+    ## Print movieList and number of movies found to the console.    
     print(movieList)
     print("Found", len(movieList), "files.")
 
