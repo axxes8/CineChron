@@ -190,6 +190,7 @@ def get_filename(path):
     ## Recursivly searches through path finding all files and returns the path for each file.
     for file in glob.iglob(stripped_path, recursive=True):
         ## Strip off the path and file extention, brackets and single quotations, then append the file name to 'json_movieList'
+        ## Add absolute path to 'json_movieList
         filename = str(os.path.basename(file).split('.')[:-1]).strip('[]').strip('\'')
         filepath = str(os.path.abspath(file))
 
@@ -201,7 +202,7 @@ def get_filename(path):
     print(json_dump)
     print("Found", len(json_movieList), "files.")
 
-    return(json.loads(json_dump))
+    return(json_dump)
 
 def main():
     #movie_list = get_filename()

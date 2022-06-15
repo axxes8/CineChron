@@ -12,7 +12,7 @@ async def root():
 
 @app.get("/get_filename/{filename:path}")
 def filename(filename):
-    return get_filename(filename)
+    return json.loads(get_filename(filename))
 
 @app.get("/get_trending")
 def trending():
