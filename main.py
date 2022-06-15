@@ -12,10 +12,8 @@ async def root():
 
 @app.get("/get_filename/{filename:path}")
 def filename(filename):
-    # get_filename(filename)
     return get_filename(filename)
 
 @app.get("/get_trending")
 def trending():
-    # get_filename(filename)
     return get_trending()
