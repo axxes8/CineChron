@@ -18,7 +18,8 @@ def filename(filename):
 def trending():
     return get_trending()
 
-@app.get("/sys_info/{path:path}")
-def sys_info(path):
-    server_info = System_info(path)
+@app.get("/sys_info/{path2:path}")
+def sys_info(path2):
+    print(path2)
+    server_info = System_info(path2)
     return server_info.movie_dict
