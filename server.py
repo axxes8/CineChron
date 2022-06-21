@@ -18,6 +18,28 @@ Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&langua
 
 Test_movie = "Over the Hedge"
 
+#This class is for cacheing the movies in a dicttionary and also storing the path as well
+class System_info:
+
+    def __init__(self, path):
+        super().__init__()
+        self.server_path = path
+        self.path_list = json.load(get_filename(path))
+        self.movie_dict = dict()
+        self.genre_key = get_genre_list()
+
+        for movie in self.path_list:
+            get_movie(movie["Title"],self.movie_dict,self.genre_key)
+        
+
+    def update_movies():
+        path = self.server_path
+        movies = self.path_list
+
+
+
+
+
 #This class is used to extract all the json data from the Movie DB API.  
 class Movie:
     
