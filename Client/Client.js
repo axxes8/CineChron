@@ -13,3 +13,15 @@ function openNav() {
     document.getElementById("main").style.marginLeft= "0";
     console.log("Sidebar Closed")
   }
+
+  function homepage() {
+    document.getElementById("main").innerHTML = "Cinechron";
+  }
+
+  function moviespage() {
+    document.getElementById("main").innerHTML = "Movies";
+  }
+
+  function tvshowspage() {
+    document.getElementById("main").innerHTML = "TV Shows";
+  }

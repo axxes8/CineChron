@@ -77,3 +77,8 @@ body {
     transition: margin-left .5s;
     padding: 16px;
   }
+
+  #myTopnav {
+    transition: margin-left .5s;
+    padding: 16px;
+  }
