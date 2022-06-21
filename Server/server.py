@@ -29,8 +29,7 @@ class System_info:
         self.movie_dict = dict()
         self.genre_key = get_genre_list()
 
-        for movie in self.path_list:
-            get_movie(movie["Title"],self.movie_dict,self.genre_key)
+        get_movies(self.path_list,self.movie_dict,self.genre_key)
         
 
     def update_movies():
@@ -44,9 +43,11 @@ class System_info:
 #This class is used to extract all the json data from the Movie DB API.  
 class Movie:
     
-    def __init__(self, TMDB_json, genre_json):
+    def __init__(self, TMDB_json, genre_json, file_title, file_path):
         super().__init__()
         
+        self.file_title = file_title
+        self.file_path = file_path
         self.movie_id = TMDB_json["id"]
         self.title = TMDB_json["original_title"]
         self.overview = TMDB_json["overview"]
@@ -66,6 +67,8 @@ class Movie:
 
     def get_json(self):
         output_json = {
+              "file_title": self.file_title,
+              "file_path": self.file_path,
               "movie_id": self.movie_id,
               "title": self.title,
               "overview": self.overview,
@@ -157,16 +160,25 @@ class API_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
-def get_movie(name, library_dict, genre_dict):
-    url = Movie_search + name
-    json = Searched_request(url)
-    json.start()
-    json.join()
-    if len(json.response) == 0:
-        movie = f"The movie file {name} couldnt be found. Make sure the filename is labled as simply the movie title"
-    else:
-        movie = Movie(json.response,genre_dict)
-        library_dict[name] = movie
+def get_movies(movie_list, library_dict, genre_dict):
+    threads = []
+    for movie in movie_list:
+        url = Movie_search + movie["Title"]
+        Title = movie["Title"]
+        path = movie["path"]
+        json = Searched_request(url)
+        threads.append((json,Title,path))
+    
+    for thread in threads:
+        thread[0].start()
+
+    for thread in threads:
+        thread[0].join()
+        if len(thread[0].response) == 0:
+            movie = f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title"
+        else:
+            movie = Movie(thread[0].response,genre_dict,thread[1],thread[2])
+            library_dict[thread[1]] = movie
     return movie
 
 def get_tv_show(name,tv_file):
@@ -231,7 +243,7 @@ def main():
     #movie_list = get_filename()
     genre_list = get_genre_list()
     library_dict = dict()
-    movie = get_movie(Test_movie,library_dict,genre_list)
+    movie = get_movies(Test_movie,library_dict,genre_list)
     
     trend_movies,trend_tv = get_trending()
 
