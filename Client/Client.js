@@ -19,7 +19,19 @@ function openNav() {
   }
 
   function moviespage() {
-    document.getElementById("main").innerHTML = "Movies";
+    let path = ""
+    let url = "localhost:8000/sys_info/" + path
+    if (path == ""){
+      document.getElementById("pathinput").style.display = "block"
+    }
+
+    else{
+      document.getElementById("pathinput").style.display = "none"
+      // let response = await fetch(url);
+      // let data = await response.json();
+      // return data;
+    }
+    // document.getElementById("main").innerHTML = "Movies";
   }
 
   function tvshowspage() {
