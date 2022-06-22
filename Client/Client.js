@@ -1,4 +1,7 @@
-console.log("Javascript loaded successfully")
+console.log("Javascript loaded successfully");
+
+let moviepath = ""
+let tvpath = ""
 
 function openNav() {
     document.getElementById("myTopnav").style.marginLeft = "250px";
@@ -15,25 +18,58 @@ function openNav() {
   }
 
   function homepage() {
-    document.getElementById("main").innerHTML = "Cinechron";
+  
   }
 
   function moviespage() {
-    let path = ""
-    let url = "localhost:8000/sys_info/" + path
-    if (path == ""){
-      document.getElementById("pathinput").style.display = "block"
-    }
-
-    else{
-      document.getElementById("pathinput").style.display = "none"
-      // let response = await fetch(url);
-      // let data = await response.json();
-      // return data;
-    }
-    // document.getElementById("main").innerHTML = "Movies";
+    console.log("moviespage() ran")
+    moviepath = document.getElementById("path").value
+    localStorage.setItem("moviepathlocal", moviepath)
+    console.log("moviepath set to: " + moviepath)
+    loadmovies()
   }
 
   function tvshowspage() {
-    document.getElementById("main").innerHTML = "TV Shows";
+    console.log("tvshowpage() ran")
+    tvpath = document.getElementById("path").value
+    console.log("tvpath set to: " + tvpath)
+    loadtvshows()
+  }
+
+  function moviepathtest(){
+    // console.log("moviepathtest() ran")
+    if (moviepath == ""){
+      document.getElementById("pathinput").style.display='block'
+      console.log("element showing")
+      console.log("moviepath contains: " + moviepath)
+    } else {
+      document.getElementById("pathinput").style.display='none'
+      console.log("element hidden")
+      // moviespage()
+    }
+  }
+
+  function tvpathtest(){
+    // console.log("tvpathtest() ran")
+    if (tvpath == ""){
+      document.getElementById("pathinput").style.display='block'
+      console.log("element showing")
+      
+    } else {
+      document.getElementById("pathinput").style.display='none'
+      console.log("element hidden")
+      // tvshowspage()
+    }
+  }
+
+  function loadmovies(){
+    console.log("loadmovies() ran")
+    document.getElementById("pathinput").style.display='none'
+    console.log("element hidden")
+  }
+
+  function loadtvshows(){
+    console.log("loadtvshows() ran")
+    document.getElementById("pathinput").style.display='none'
+    console.log("element hidden")
   }

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<body onload="moviepathtest()">
     <div id="myTopnav" class="topnav">
         <a class="openbtn" onclick="openNav()">☰</a>
         <a href="#Cinechron">Cinechron</a>
@@ -18,18 +18,21 @@
 
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-        <a href="#home" id="homebtn" onclick="homepage()">Home</a>
-        <a href="#movies" id="moviesbtn" onclick="moviespage()">Movies</a>
-        <a href="#tvshows" id="tvshowsbtn" onclick="tvshowspage()">TV Shows</a>
+        <a href="Homepage.html" id="homebtn">Home</a>
+        <a href="#movies" id="moviesbtn">Movies</a>
+        <a href="TVShows.html" id="tvshowsbtn">TV Shows</a>
     </div>
       
     <div id="main"> 
-        <h1 id="main"></h1>
-        <form id="pathinput">
-            <label for="path">First name:</label><br>
-            <input type="text" id="path" name="path" placeholder="Enter Path for Movies"><br>
-            <input type="submit" value="Submit">
-        </form>
+        <h1 id="main">Movies</h1>
+
+        <div id="pathinput">
+            <form>
+                <input type="text" id="path" name="path" placeholder="Enter Path for Movies">
+                <input type="button" value="Submit" onclick="moviespage()">
+            </form>
+        </div>
+
     </div>
 </body>
 
