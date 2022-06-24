@@ -58,7 +58,7 @@ class Movie:
         self.title = TMDB_json["original_title"]
         self.overview = TMDB_json["overview"]
         self.popularity = TMDB_json["popularity"]
-        self.poster_path = "https://image.tmdb.org/t/p/original/" + TMDB_json["poster_path"]
+        self.poster_path = "https://image.tmdb.org/t/p/original" + TMDB_json["poster_path"]
         self.release_date = TMDB_json["release_date"]
 
         self.genre_ids = TMDB_json["genre_ids"]
