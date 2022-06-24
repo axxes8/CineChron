@@ -1,10 +1,18 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from server import *
+from fastapi.middleware.cors import CORSMiddleware
 
 app=FastAPI()
 
-# app.mount('/filename', app=StaticFiles(directory='Z:/'), name="filename")
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    # allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
 
 @app.get("/")
 async def root():
