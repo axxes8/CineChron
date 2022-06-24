@@ -39,7 +39,7 @@ class System_info:
     def home_page(self):
         final_json = []
         for movie in self.movie_dict.values():
-            final_json.append(json.loads(movie.get_home_json))
+            final_json.append(json.loads(movie.get_home_json()))
         return json.dumps(final_json)
 
 
