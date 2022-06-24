@@ -22,4 +22,4 @@ def trending():
 def sys_info(path2):
     print(path2)
     server_info = System_info(path2)
-    return server_info.movie_dict
+    return json.loads(server_info.home_page())

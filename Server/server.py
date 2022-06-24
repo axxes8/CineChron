@@ -32,9 +32,15 @@ class System_info:
         get_movies(self.path_list,self.movie_dict,self.genre_key)
         
 
-    def update_movies():
+    def update_movies(self):
         path = self.server_path
         movies = self.path_list
+
+    def home_page(self):
+        final_json = []
+        for movie in self.movie_dict:
+            final_json.append(json.loads(movie.get_home_json))
+        return json.dumps(final_json)
 
 
 
@@ -52,7 +58,7 @@ class Movie:
         self.title = TMDB_json["original_title"]
         self.overview = TMDB_json["overview"]
         self.popularity = TMDB_json["popularity"]
-        self.poster_path = TMDB_json["poster_path"]
+        self.poster_path = "https://image.tmdb.org/t/p/original/" + TMDB_json["poster_path"]
         self.release_date = TMDB_json["release_date"]
 
         self.genre_ids = TMDB_json["genre_ids"]
@@ -75,19 +81,36 @@ class Movie:
               "popularity": self.popularity,
               "poster_path": self.poster_path,
               "release_date": self.release_date,
-              "genres": self.genres,
+              "genres": self.genres
             }
         return json.dumps(output_json)
 
-    def get_trending():
+    def get_home_json(self):
+        home_json = {
+              "file_title": self.file_title,
+              "file_path": self.file_path,
+              "poster_path": self.poster_path
+            }
+        return json.dumps(home_json)
+
+    def get_trending(self):
         trend_m_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
         call_m = API_request(trend_m_url)
 
         call_m.start()
-
         call_m.join()
 
         return call_m.response
+
+
+    def get_similar_movies(self):
+        similar_movies_url = f"https://api.themoviedb.org/3/movie/{self.movie_id}/similar?api_key={api_key}&language=en-US&page=1"
+        similar = API_request(similar_movies_url)
+
+        similar.start()
+        similar.join()
+
+        return similar.response
 
     def __str__(self):
         pass
@@ -160,7 +183,7 @@ class API_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
-def get_movies(movie_list, library_dict, genre_dict):
+def get_movies(movie_list, library_dict, genre_dict, not_found):
     threads = []
     for movie in movie_list:
         url = Movie_search + movie["Title"]
@@ -175,7 +198,8 @@ def get_movies(movie_list, library_dict, genre_dict):
     for thread in threads:
         thread[0].join()
         if len(thread[0].response) == 0:
-            movie = f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title"
+            not_found.append(movie) 
+            print(f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title")
         else:
             movie = Movie(thread[0].response,genre_dict,thread[1],thread[2])
             library_dict[thread[1]] = movie
