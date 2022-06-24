@@ -183,7 +183,7 @@ class API_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
-def get_movies(movie_list, library_dict, genre_dict, not_found):
+def get_movies(movie_list, library_dict, genre_dict):
     threads = []
     for movie in movie_list:
         url = Movie_search + movie["Title"]
@@ -198,7 +198,7 @@ def get_movies(movie_list, library_dict, genre_dict, not_found):
     for thread in threads:
         thread[0].join()
         if len(thread[0].response) == 0:
-            not_found.append(movie) 
+            #not_found.append(movie) 
             print(f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title")
         else:
             movie = Movie(thread[0].response,genre_dict,thread[1],thread[2])
