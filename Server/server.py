@@ -67,15 +67,7 @@ class Movie:
         self.popularity = TMDB_json["popularity"]
         self.poster_path = "https://image.tmdb.org/t/p/original" + TMDB_json["poster_path"]
         self.release_date = TMDB_json["release_date"]
-
-
         self.genre_ids = TMDB_json["genres"]
-        #self.genre_key = genre_json[]
-
-        self.genres = []
-
-        for genre in self.genre_ids:
-            self.genres.append(genre["name"])
 
 
     def get_json(self):
