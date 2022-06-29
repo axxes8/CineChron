@@ -215,6 +215,13 @@ def get_movies(movie_list, library_dict):
             movie = Movie(thread[0].response,thread[1],thread[2])
             library_dict[thread[0].response["id"]] = movie
 
+def get_movie_full_details(id):
+    Movie_details = f"https://api.themoviedb.org/3/movie/{id}?api_key={api_key}&language=en-US"
+    details = API_request(Movie_details)
+    details.start()
+    details.join()
+    return details.response
+
 def get_tv_show(name,tv_file):
     #url = TV_search + name
     pass

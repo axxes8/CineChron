@@ -30,11 +30,10 @@ def trending():
 @app.get("/sys_info/{path2:path}")
 def sys_info(path2):
     print(path2)
-    Server_path = path2
-    Server_info = System_info(path2)
-    return json.loads(Server_info.home_page())
+    server_info = System_info(path2)
+    return json.loads(server_info.home_page())
 
-@app.gt("get_movie_details/{id:id}")
+@app.get("get_movie_details/{id:id}")
 def full_movie_details(id):
-    full_movie_json = Server_info.get_movie_details(id)
+    full_movie_json = get_movie_full_details(id)
     return full_movie_json
