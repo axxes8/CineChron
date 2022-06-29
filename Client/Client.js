@@ -57,9 +57,16 @@ function openNav() {
     console.log(data)
     // Parse data and show it on the page
     data.forEach(element => {
-      document.getElementById("grid").innerHTML += "<div> <div><h3>" + element.title + "</h3></div> <div><img src='" + element.poster_path + "' width=250> </div></div>"
+      document.getElementById("grid").innerHTML += "<div onclick='moviedetails(" + element.movie_id + ")'> <div><h3>" + element.title + "</h3></div> <div><img src='" + element.poster_path + "' width=250> </div></div>"
     });
     
+  }
+
+  function moviedetails(id){
+    console.log("moviedetails() ran")
+    let url = "http://127.0.0.1:8000/get_movie_details/" + id
+
+    console.log(url)
   }
 
   function tvshowspage() {
