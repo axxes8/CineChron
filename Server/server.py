@@ -3,9 +3,12 @@ import glob
 import json
 import os
 import threading
+from urllib import response
 
 import requests
 # import vlc
+
+#Movie DB API referance = https://developers.themoviedb.org/3/getting-started/introduction
 
 #Movie DB API key https://api.themoviedb.org
 api_key = '9ba37aca04338a3886c632201a0a7dce'
@@ -16,6 +19,7 @@ Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&que
 #API call that returns the genre list 
 Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US"
 
+#test movie variable
 Test_movie = "Over the Hedge"
 
 #This class is for cacheing the movies in a dictionary and also storing the path as well
@@ -27,9 +31,9 @@ class System_info:
         print(path)
         self.path_list = json.loads(get_filename(path))
         self.movie_dict = dict()
-        self.genre_key = get_genre_list()
+        #self.genre_key = get_genre_list()
 
-        get_movies(self.path_list,self.movie_dict,self.genre_key)
+        get_movies(self.path_list,self.movie_dict)
         
 
     def update_movies(self):
@@ -49,7 +53,7 @@ class System_info:
 #This class is used to extract all the json data from the Movie DB API.  
 class Movie:
     
-    def __init__(self, TMDB_json, genre_json, file_title, file_path):
+    def __init__(self, TMDB_json, file_title, file_path):
         super().__init__()
         
         self.file_title = file_title
@@ -60,16 +64,18 @@ class Movie:
         self.popularity = TMDB_json["popularity"]
         self.poster_path = "https://image.tmdb.org/t/p/original" + TMDB_json["poster_path"]
         self.release_date = TMDB_json["release_date"]
+        self.backdrop_path = "https://image.tmdb.org/t/p/original" + TMDB_json["backdrop_path"]
+        self.runtime = TMDB_json["runtime"]
 
-        self.genre_ids = TMDB_json["genre_ids"]
-        self.genre_key = genre_json["genres"]
+
+        self.genre_ids = TMDB_json["genres"]
+        #self.genre_key = genre_json[]
 
         self.genres = []
 
         for genre in self.genre_ids:
-            for key in self.genre_key:
-                if genre == key["id"]:
-                    self.genres.append(key["name"]) 
+            self.genres.append(genre["name"])
+
 
     def get_json(self):
         output_json = {
@@ -183,7 +189,7 @@ class API_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
-def get_movies(movie_list, library_dict, genre_dict):
+def get_movies(movie_list, library_dict):
     threads = []
     for movie in movie_list:
         url = Movie_search + movie["Title"]
@@ -201,9 +207,24 @@ def get_movies(movie_list, library_dict, genre_dict):
             #not_found.append(movie) 
             print(f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title")
         else:
-            movie = Movie(thread[0].response,genre_dict,thread[1],thread[2])
-            library_dict[thread[1]] = movie
-    return movie
+            movie_id = thread[0].response["id"]
+            
+            Movie_details = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
+            thread[0] = API_request(Movie_details)
+
+    for thread in threads:
+        thread[0].start()
+
+    for thread in threads:
+        thread[0].join()
+        if len(thread[0].response) == 0:
+            #not_found.append(movie) 
+            print(f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title")
+        else:
+            movie = Movie(thread[0].response,thread[1],thread[2])
+            library_dict[thread[0].response["id"]] = movie
+
+    
 
 def get_tv_show(name,tv_file):
     #url = TV_search + name
