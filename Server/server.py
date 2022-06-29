@@ -46,6 +46,9 @@ class System_info:
             final_json.append(json.loads(movie.get_home_json()))
         return json.dumps(final_json)
 
+    def get_movie_details(self):
+        pass
+
 
 
 
@@ -64,8 +67,6 @@ class Movie:
         self.popularity = TMDB_json["popularity"]
         self.poster_path = "https://image.tmdb.org/t/p/original" + TMDB_json["poster_path"]
         self.release_date = TMDB_json["release_date"]
-        self.backdrop_path = "https://image.tmdb.org/t/p/original" + TMDB_json["backdrop_path"]
-        self.runtime = TMDB_json["runtime"]
 
 
         self.genre_ids = TMDB_json["genres"]
@@ -99,6 +100,17 @@ class Movie:
             }
         return json.dumps(home_json)
 
+    def get_full_details(self):
+
+        Movie_details = f"https://api.themoviedb.org/3/movie/{self.movie_id}?api_key={api_key}&language=en-US"
+        details = API_request(Movie_details)
+
+        details.start()
+        details.join()
+
+        return details.response
+
+
     def get_trending(self):
         trend_m_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
         call_m = API_request(trend_m_url)
@@ -122,7 +134,7 @@ class Movie:
         pass
 
 
-#
+#empty class for 
 class TV_episode:
     
     def __init__(self, json):
@@ -207,24 +219,8 @@ def get_movies(movie_list, library_dict):
             #not_found.append(movie) 
             print(f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title")
         else:
-            movie_id = thread[0].response["id"]
-            
-            Movie_details = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
-            thread[0] = API_request(Movie_details)
-
-    for thread in threads:
-        thread[0].start()
-
-    for thread in threads:
-        thread[0].join()
-        if len(thread[0].response) == 0:
-            #not_found.append(movie) 
-            print(f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title")
-        else:
             movie = Movie(thread[0].response,thread[1],thread[2])
             library_dict[thread[0].response["id"]] = movie
-
-    
 
 def get_tv_show(name,tv_file):
     #url = TV_search + name
