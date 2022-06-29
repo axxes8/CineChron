@@ -4,6 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app=FastAPI()
 
+path = ""
+server_info = System_info(path)
+
 origins = ["*"]
 
 app.add_middleware(
@@ -29,7 +32,11 @@ def trending():
 @app.get("/sys_info/{path2:path}")
 def sys_info(path2):
     print(path2)
+    path = path2
     server_info = System_info(path2)
     return json.loads(server_info.home_page())
 
-# @app.gt("get_movie_details/{id:id}")
+@app.gt("get_movie_details/{id:id}")
+def full_movie_details(id):
+    full_movie_json = server_info.get_movie_details(id)
+    return full_movie_json

@@ -46,8 +46,9 @@ class System_info:
             final_json.append(json.loads(movie.get_home_json()))
         return json.dumps(final_json)
 
-    def get_movie_details(self):
-        pass
+    def get_movie_details(self,id):
+        movie = self.movie_dict[id]
+        return movie.get_full_details()
 
 
 
