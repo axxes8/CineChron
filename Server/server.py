@@ -83,8 +83,8 @@ class Movie:
 
     def get_home_json(self):
         home_json = {
-              "file_title": self.file_title,
-              "file_path": self.file_path,
+              "movie_id": self.movie_id,
+              "title": self.title,
               "poster_path": self.poster_path
             }
         return json.dumps(home_json)
