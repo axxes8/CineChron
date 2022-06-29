@@ -84,10 +84,10 @@ body {
     gap: 0px 0px;
   }
 
-  /* .grid-container * {
+  .grid-container * {
     border: 1px solid red;
     position: relative;
-  } */
+  }
 
   .grid-container *:after {
     content: attr(class);
