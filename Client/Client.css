@@ -72,6 +72,29 @@ body {
     background-color: #04AA6D;
     color: white;
   }
+
+  .grid-container {
+    height: 100%;
+    margin: 0;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0px 0px;
+  }
+
+  /* .grid-container * {
+    border: 1px solid red;
+    position: relative;
+  } */
+
+  .grid-container *:after {
+    content: attr(class);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   
   #main {
     transition: margin-left .5s;
