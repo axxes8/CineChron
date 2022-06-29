@@ -80,7 +80,6 @@ class Movie:
               "popularity": self.popularity,
               "poster_path": self.poster_path,
               "release_date": self.release_date,
-              "genres": self.genres
             }
         return json.dumps(output_json)
 
