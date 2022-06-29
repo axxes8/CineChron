@@ -22,6 +22,9 @@ Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&langua
 #test movie variable
 Test_movie = "Over the Hedge"
 
+Server_path = ""
+Server_info = ""
+
 #This class is for cacheing the movies in a dictionary and also storing the path as well
 class System_info:
 
