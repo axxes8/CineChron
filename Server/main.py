@@ -1,3 +1,4 @@
+from typing import Set
 from fastapi import FastAPI
 from server import *
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,5 +36,5 @@ def sys_info(path2):
 
 @app.gt("get_movie_details/{id:id}")
 def full_movie_details(id):
-    full_movie_json = server_info.get_movie_details(id)
+    full_movie_json = Server_info.get_movie_details(id)
     return full_movie_json
