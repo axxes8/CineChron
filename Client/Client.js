@@ -58,8 +58,8 @@ function openNav() {
     // Parse data and show it on the page
     data.forEach(element => {
       document.getElementById("grid").innerHTML += "<div onclick='moviedetails(" + element.movie_id + ")'> <div><h3>" + element.title + "</h3></div> <div><img src='" + element.poster_path + "' width=250> </div></div>"
+      console.log(element.movie_id)
     });
-    
   }
 
   function moviedetails(id){
