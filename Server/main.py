@@ -32,4 +32,4 @@ def sys_info(path2):
     server_info = System_info(path2)
     return json.loads(server_info.home_page())
 
-@app.gt("get_movie_details/{id:id}")
+# @app.gt("get_movie_details/{id:id}")
