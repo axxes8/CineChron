@@ -49,7 +49,7 @@ function openNav() {
     document.getElementById("pagecontent").style.display='none'
     console.log("element hidden")
     // Set url to function in FastAPI
-    let url = "http://127.0.0.1:8000/get_filename/" + moviepath
+    let url = "http://127.0.0.1:8000/sys_info/" + moviepath
     console.log(url)
     // Get request to url
     let response = await fetch(url)
@@ -57,7 +57,7 @@ function openNav() {
     console.log(data)
     // Parse data and show it on the page
     data.forEach(element => {
-      document.getElementById("list").innerHTML += "<li>" + element.Title + "</li>"
+      document.getElementById("grid").innerHTML += "<div> <div><h3>" + element.file_title + "</h3></div> <div><img src='" + element.poster_path + "' width=250> </div></div>"
     });
     
   }
