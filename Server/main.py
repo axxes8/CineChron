@@ -33,7 +33,7 @@ def sys_info(path2):
     server_info = System_info(path2)
     return json.loads(server_info.home_page())
 
-@app.get("/get_movie_details/{movieid:movie_id}")
+@app.get("/get_movie_details/{movieid}")
 def get_movie_details(movieid):
     full_movie_json = get_movie_full_details(movieid)
     return full_movie_json
