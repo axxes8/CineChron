@@ -270,7 +270,7 @@ def get_filename(path):
     ##      * can be used as a wildcard
     # path="Z:/**/*.*"
     ## Add iterator and wildcards to path
-    path = path + "/**/*.*"
+    path = path + "/**/*.m*"
     ## Strip quotations off of path
     stripped_path = path.strip('"')
     # print(stripped_path)

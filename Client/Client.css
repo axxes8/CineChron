@@ -1,6 +1,7 @@
 body {
     font-family: "Lato", sans-serif;
   }
+  
 .sidebar {
     height: 100%;
     width: 0;
@@ -45,7 +46,20 @@ body {
   }
   
   .openbtn:hover {
-    background-color: #444;
+    background-color: #008ae6;
+  }
+
+  .backbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #008ae6;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+  }
+
+  .backbtn:hover {
+    background-color: #005c99;
   }
 
   .topnav {
@@ -85,7 +99,7 @@ body {
   }
 
   .grid-container * {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     position: relative;
   }
 
@@ -96,6 +110,13 @@ body {
     left: 0;
   }
   
+  .container {
+    border: 1px solid green;
+    column-count: 2;
+    padding: 10px;
+    margin: auto;
+  }
+
   #main {
     transition: margin-left .5s;
     padding: 16px;
