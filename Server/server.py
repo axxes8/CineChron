@@ -22,10 +22,12 @@ Genre = f"https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&langua
 #test movie variable
 Test_movie = "Over the Hedge"
 
+#Global variables for the server to try to cache objects
 Server_path = ""
 Server_info = ""
 
 #This class is for cacheing the movies in a dictionary and also storing the path as well
+#Takes in the path. Retrieves the files from the get filename function, and gets all the movies from TMDB
 class System_info:
 
     def __init__(self, path):
@@ -38,28 +40,32 @@ class System_info:
 
         get_movies(self.path_list,self.movie_dict)
         
+    #function that is used for if the path needs to be changed from when the object was created
+    def update_movies(self,path):
+        self.server_path = path
+        self.path_list = json.loads(get_filename(path))
+        self.movie_dict = dict()
 
-    def update_movies(self):
-        path = self.server_path
-        movies = self.path_list
+        get_movies(self.path_list,self.movie_dict)
 
+    #return all the movie jsons for the home page with only the details that are needed
     def home_page(self):
         final_json = []
         for movie in self.movie_dict.values():
             final_json.append(json.loads(movie.get_home_json()))
         return json.dumps(final_json)
 
+    #take in a movie ID from the client, search the cached movie dictionary. Return the full json for the client.
     def get_movie_details(self,id):
         movie = self.movie_dict[id]
         return movie.get_full_details()
 
 
 
-
-
 #This class is used to extract all the json data from the Movie DB API.  
 class Movie:
     
+    #pull out all the items from the json that you would like from the source json to be stored in the python object.
     def __init__(self, TMDB_json, file_title, file_path):
         super().__init__()
         
@@ -72,6 +78,7 @@ class Movie:
         self.poster_path = "https://image.tmdb.org/t/p/original" + TMDB_json["poster_path"]
         self.release_date = TMDB_json["release_date"]
 
+    #take the details from the object and dump them as a json string that can be "loaded" by Fast Api to the client 
     def get_json(self):
         output_json = {
               "file_title": self.file_title,
@@ -85,6 +92,7 @@ class Movie:
             }
         return json.dumps(output_json)
 
+    #json details that are only dumped for the home page
     def get_home_json(self):
         home_json = {
               "movie_id": self.movie_id,
@@ -93,6 +101,7 @@ class Movie:
             }
         return json.dumps(home_json)
 
+    #make a Api call to the TMDB for the full details json of that specific movie
     def get_full_details(self):
 
         Movie_details = f"https://api.themoviedb.org/3/movie/{self.movie_id}?api_key={api_key}&language=en-US"
@@ -103,7 +112,7 @@ class Movie:
 
         return details.response
 
-
+    #make a api call for the trending movies that are stored in TMDB.
     def get_trending(self):
         trend_m_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
         call_m = API_request(trend_m_url)
@@ -113,7 +122,7 @@ class Movie:
 
         return call_m.response
 
-
+    #create a thread for the json of movies that are similar to the current movie object.
     def get_similar_movies(self):
         similar_movies_url = f"https://api.themoviedb.org/3/movie/{self.movie_id}/similar?api_key={api_key}&language=en-US&page=1"
         similar = API_request(similar_movies_url)
@@ -123,11 +132,8 @@ class Movie:
 
         return similar.response
 
-    def __str__(self):
-        pass
 
-
-#empty class for 
+#empty class for TV shows
 class TV_episode:
     
     def __init__(self, json):
@@ -160,7 +166,8 @@ class TV_Show:
     def __str__(self):
         pass
 
-#
+#Create a Thread that calls the desired URL, 
+#Since this one is searched requests it will have a list of results but the response will be the first result of the list.
 class Searched_request(threading.Thread):
     def __init__(self,url):
         threading.Thread.__init__(self)
@@ -180,7 +187,9 @@ class Searched_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
-#
+#Single thread request for the desired URL that is provided
+#If the status code it successful (200) then the returned json will be stored in the object.response
+#if the status code is anything other than 200 a error message will be printed.
 class API_request(threading.Thread):
     def __init__(self,url):
         threading.Thread.__init__(self)
@@ -194,6 +203,8 @@ class API_request(threading.Thread):
         else:
             print("Error retrieveing data on ",self.url)
 
+# funtion takes in a list of movies from get_filename and then a empty (or filled) dictionary.
+# A list API request will be created for each of the movies---->started---->then joined)
 def get_movies(movie_list, library_dict):
     threads = []
     for movie in movie_list:
@@ -208,6 +219,7 @@ def get_movies(movie_list, library_dict):
 
     for thread in threads:
         thread[0].join()
+        # if the response is not empty then create a movie object and add it to the dictionary.
         if len(thread[0].response) == 0:
             #not_found.append(movie) 
             print(f"The movie file {thread[1]} couldnt be found. Make sure the filename is labled as simply the movie title")
@@ -215,6 +227,7 @@ def get_movies(movie_list, library_dict):
             movie = Movie(thread[0].response,thread[1],thread[2])
             library_dict[thread[0].response["id"]] = movie
 
+#function to make a API TMDB call for the full details of the movie ID that is passed into the function.
 def get_movie_full_details(id):
     Movie_details = f"https://api.themoviedb.org/3/movie/{id}?api_key={api_key}&language=en-US"
     details = API_request(Movie_details)
@@ -226,7 +239,7 @@ def get_tv_show(name,tv_file):
     #url = TV_search + name
     pass
 
-#Function creates two threads to the Movie DB API. One thread retrieves a list of  
+#Function creates two threads to the Movie DB API. One thread retrieves a list of treading movies and the other is a list of trending TV shows. 
 def get_trending():
     trend_m_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
     call_m = API_request(trend_m_url)
