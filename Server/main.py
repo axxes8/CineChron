@@ -35,7 +35,12 @@ def sys_info(path2):
 
 @app.get("/get_movie_details/{movieid}")
 def get_movie_details(movieid):
-    full_details_dump = json.dumps([get_movie_full_details(movieid),get_similar_movies(movieid)])
+    details = get_movie_full_details(movieid)
+    similar = get_similar_movies(movieid)
+    similar_results = similar["results"]
+    details.update({"similar_movies": similar_results})
+
+    full_details_dump = json.dumps(details)
     full_details = json.loads(full_details_dump)
 
     return full_details
