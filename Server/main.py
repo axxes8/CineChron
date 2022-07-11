@@ -38,6 +38,6 @@ def get_movie_details(movieid):
     full_movie_json = get_movie_full_details(movieid)
     similar_movies = get_similar_movies(movieid)
 
-    json_dumps = json.dumps(full_movie_json.update(similar_movies))
+    json_dumps = json.dumps(full_movie_json.update({"similar_movies": similar_movies}))
 
     return json.loads(json_dumps)
