@@ -235,25 +235,52 @@ def get_movie_full_details(id):
     details.join()
     return details.response
 
-def get_tv_show(name,tv_file):
+def get_tv_show_full_details():
     #url = TV_search + name
     pass
 
-#Function creates two threads to the Movie DB API. One thread retrieves a list of treading movies and the other is a list of trending TV shows. 
-def get_trending():
+def get_similar_movies(movie_id):
+    similar_movies_url = f"https://api.themoviedb.org/3/movie/{movie_id}/similar?api_key={api_key}&language=en-US&page=1"
+    similar = API_request(similar_movies_url)
+
+    similar.start()
+    similar.join()
+
+    return similar.response
+
+
+#Function creates a thread that retrives all trending movies, tv shows, and people from TMBD 
+def get_trending_all_media():
+    trend_all_url = f"https://api.themoviedb.org/3/trending/all/day?api_key={api_key}"
+    call_all = API_request(trend_all_url)
+
+    call_all.start()
+
+    call_all.join()
+
+    return call_all.response
+
+#Function that creates a thread that retrieves the Jsons of the trending Movies
+def get_trending_movies():
     trend_m_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
     call_m = API_request(trend_m_url)
 
-    trend_t_url = f"https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}"
-    call_tv = API_request(trend_t_url)
-
     call_m.start()
-    call_tv.start()
 
     call_m.join()
+
+    return call_m.response
+
+#Function that creates a thread that retrieves the Jsons of the trending TV shows
+def get_trending_tv_shows():
+    trend_t_url = f"https://api.themoviedb.org/3/trending/tv/day?api_key={api_key}"
+    call_tv = API_request(trend_t_url)
+
+    call_tv.start()
+
     call_tv.join() 
 
-    return call_m.response, call_tv.response
+    return call_tv.response
 
 #Function creates a thread that gets the list of genres with their genre ID connected.
 def get_genre_list():
@@ -299,7 +326,7 @@ def main():
     library_dict = dict()
     movie = get_movies(Test_movie,library_dict,genre_list)
     
-    trend_movies,trend_tv = get_trending()
+    trend_movies = get_trending_movies()
 
     print(movie.title)
     print(movie.overview)

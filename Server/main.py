@@ -23,17 +23,18 @@ async def root():
 def filename(filename):
     return json.loads(get_filename(filename))
 
-@app.get("/get_trending")
+@app.get("/get_trending_movies")
 def trending():
-    return get_trending()
+    return get_trending_movies()
 
 @app.get("/sys_info/{path2:path}")
 def sys_info(path2):
     print(path2)
     server_info = System_info(path2)
-    return json.loads(server_info.home_page())
+    return json.loads(server_info.home_page()),get_trending_movies
 
 @app.get("/get_movie_details/{movieid}")
 def get_movie_details(movieid):
     full_movie_json = get_movie_full_details(movieid)
-    return full_movie_json
+    similar_movies = get_similar_movies(movieid)
+    return full_movie_json, similar_movies
