@@ -3,6 +3,7 @@ console.log("Javascript loaded successfully");
 let moviepath = ""
 let tvpath = ""
 
+// Opens the navigaiton bar
 function openNav() {
     document.getElementById("myTopnav").style.marginLeft = "250px";
     document.getElementById("mySidebar").style.width = "250px";
@@ -10,6 +11,7 @@ function openNav() {
     console.log("Sidebar opened")
   }
   
+  // Closes the navigation bar
   function closeNav() {
     document.getElementById("myTopnav").style.marginLeft = "0";
     document.getElementById("mySidebar").style.width = "0";
@@ -66,6 +68,7 @@ function openNav() {
     });
   }
   
+  // Hide the movie details and show the movie grid
   function showgrid(){
     document.getElementById("grid").style.display=''
     document.getElementById("movie_details").style.display='none'

@@ -3,7 +3,7 @@ import glob
 import json
 import os
 import threading
-from urllib import response
+# from urllib import response
 
 import requests
 # import vlc
