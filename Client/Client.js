@@ -19,8 +19,14 @@ function openNav() {
     console.log("Sidebar Closed")
   }
 
-  function homepage() {
-  
+  async function homepage() {
+    document.getElementById("main").innerHTML += "hello world"
+    let url = "http://127.0.0.1:8000/get_trending_movies"
+    console.log(url)
+    let response = await fetch(url)
+    let data = await response.json()
+    console.log(data)
+    
   }
 
   function moviespage() {
