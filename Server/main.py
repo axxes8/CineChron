@@ -31,7 +31,7 @@ def trending():
 def sys_info(path2):
     print(path2)
     server_info = System_info(path2)
-    return json.dumps(server_info.home_page())
+    return json.loads(server_info.home_page())
 
 @app.get("/get_movie_details/{movieid}")
 def get_movie_details(movieid):
@@ -40,4 +40,4 @@ def get_movie_details(movieid):
     combine = full_movie_json.update({"similar_movies": similar_movies})
     json_dumps = json.dumps(combine)
 
-    return json_dumps
+    return json.loads(json_dumps)
