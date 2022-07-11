@@ -31,10 +31,13 @@ def trending():
 def sys_info(path2):
     print(path2)
     server_info = System_info(path2)
-    return json.loads(server_info.home_page())#,get_trending_movies
+    return json.loads(server_info.home_page())
 
 @app.get("/get_movie_details/{movieid}")
 def get_movie_details(movieid):
     full_movie_json = get_movie_full_details(movieid)
     similar_movies = get_similar_movies(movieid)
-    return full_movie_json, similar_movies
+
+    json_dumps = json.dumps(full_movie_json + similar_movies)
+
+    return json.loads(json_dumps)
