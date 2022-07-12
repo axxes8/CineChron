@@ -3,7 +3,7 @@ import glob
 import json
 import os
 import threading
-# from urllib import response
+import config
 
 import requests
 # import vlc
@@ -11,7 +11,7 @@ import requests
 #Movie DB API referance = https://developers.themoviedb.org/3/getting-started/introduction
 
 #Movie DB API key https://api.themoviedb.org
-api_key = '9ba37aca04338a3886c632201a0a7dce'
+api_key = config.api_key
 
 #API call that returns a result set of movies 
 Movie_search = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query="
