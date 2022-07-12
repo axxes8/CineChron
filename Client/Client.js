@@ -20,12 +20,16 @@ function openNav() {
   }
 
   async function homepage() {
-    document.getElementById("main").innerHTML += "hello world"
+    // document.getElementById("main").innerHTML += "hello world"
     let url = "http://127.0.0.1:8000/get_trending_movies"
     console.log(url)
     let response = await fetch(url)
     let data = await response.json()
     console.log(data)
+    data.forEach(element => {
+      document.getElementById("grid").innerHTML += "<div onclick='moviedetails(" + element.id + ")'> <div><h3>" + element.title + "</h3></div> <div><img src='https://image.tmdb.org/t/p/original" + element.poster_path + "' width=250> </div></div>"
+      console.log(element.movie_id)
+    });
     
   }
 

@@ -111,7 +111,7 @@ body {
   }
   
   .container {
-    border: 1px solid green;
+    /* border: 1px solid green; */
     column-count: 2;
     padding: 10px;
     margin: auto;
