@@ -258,7 +258,7 @@ def get_trending_all_media():
 
     call_all.join()
 
-    return call_all.response
+    return call_all.response["results"]
 
 #Function that creates a thread that retrieves the Jsons of the trending Movies
 def get_trending_movies():
@@ -269,7 +269,7 @@ def get_trending_movies():
 
     call_m.join()
 
-    return call_m.response
+    return call_m.response["results"]
 
 #Function that creates a thread that retrieves the Jsons of the trending TV shows
 def get_trending_tv_shows():
@@ -280,7 +280,7 @@ def get_trending_tv_shows():
 
     call_tv.join() 
 
-    return call_tv.response
+    return call_tv.response["results"]
 
 #Function creates a thread that gets the list of genres with their genre ID connected.
 def get_genre_list():
